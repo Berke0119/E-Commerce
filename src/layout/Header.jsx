@@ -4,14 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../store/actions/productThunks';
 import { Menu, X, User, ShoppingCart, Heart, Search } from 'lucide-react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
+import md5 from 'md5';
+import axiosInstance from '../api/axiosInstance';
+import { setUser } from '../store/actions/clientActions';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.product.categories);
+  const user = useSelector((state) => state.client.user);
+  const isAuthenticated = !!user?.email;
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -19,8 +24,12 @@ export default function Header() {
     }
   }, [dispatch, categories.length]);
 
-
-
+  const handleLogout = () => {
+    dispatch(setUser({}));
+    localStorage.removeItem('token');
+    delete axiosInstance.defaults.headers['Authorization'];
+    setIsUserMenuOpen(false);
+  };
 
   const genderedCategories = categories.reduce(
     (acc, category) => {
@@ -57,7 +66,41 @@ export default function Header() {
 
         {/* Sağ ikonlar - Mobil */}
         <div className="flex items-center gap-4 md:hidden">
-          <User size={16} className="text-gray-600" />
+          <div className="relative">
+            <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
+              <User size={16} className="text-gray-600" />
+            </button>
+            {isUserMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                {isAuthenticated ? (
+                  <>
+                    <div className="px-4 py-2 flex items-center gap-2 border-b">
+                      <img
+                        src={`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon`}
+                        alt="Avatar"
+                        className="w-6 h-6 rounded-full object-cover"
+                      />
+                      <span className="text-sm text-gray-700">{user.name}</span>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
+                    >
+                      Çıkış Yap
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={() => setIsUserMenuOpen(false)}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Giriş Yap / Kayıt Ol
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
           <Search size={16} className="text-gray-600" />
           <ShoppingCart size={16} className="text-gray-600" />
           <button onClick={() => setIsOpen(!isOpen)}>
@@ -98,7 +141,35 @@ export default function Header() {
 
         {/* Sağ ikonlar */}
         <div className="hidden md:flex gap-4 items-center text-sm text-[#23A6F0]">
-          <Link to="/login" className="flex items-center gap-1"><User size={16} /> Login / Register</Link>
+          {/*<Link to="/login" className="flex items-center gap-1"><User size={16} /> Login / Register</Link>*/}
+          {isAuthenticated ? (
+            <div className="flex items-center gap-3">
+              <img
+                src={`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon`}
+                alt="Avatar"
+                className="w-6 h-6 rounded-full object-cover"
+              />
+              <span className="text-sm font-bold text-[#252B42]">{user.name}</span>
+
+              <button
+                onClick={() => {
+                  dispatch(setUser({}));
+                  localStorage.removeItem('token');
+                  delete axiosInstance.defaults.headers['Authorization'];
+                }}
+                className="text-red-500 text-xs ml-2 underline font-bold"
+              >
+                Logout
+              </button>
+
+
+            </div>
+          ) : (
+            <Link to="/login" className="flex items-center gap-1">
+              <User size={16} /> Login / Register
+            </Link>
+          )}
+
           <Search size={16} className="text-gray-600 hover:text-black cursor-pointer" />
           <ShoppingCart size={16} className="text-gray-600 hover:text-black cursor-pointer" />
           <Heart size={16} className="text-gray-600 hover:text-black cursor-pointer" />
