@@ -17,19 +17,19 @@ export default function AboutStatsSection() {
       {/* İstatistik kutuları */}
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-4 text-center gap-14 mb-16">
         <div>
-          <h4 className="text-6xl font-bold text-[#252B42]">15K</h4>
+          <h4 className="text-6xl font-bold text-[#252B42] whitespace-nowrap">15K</h4>
           <p className="text-base font-bold text-[#737373] mt-1">Happy Customers</p>
         </div>
         <div>
-          <h4 className="text-6xl font-bold text-[#252B42]">150K</h4>
+          <h4 className="text-6xl font-bold text-[#252B42] whitespace-nowrap">150K</h4>
           <p className="text-base font-bold text-[#737373] mt-1">Monthly Visitors</p>
         </div>
         <div>
-          <h4 className="text-6xl font-bold text-[#252B42]">15</h4>
+          <h4 className="text-6xl font-bold text-[#252B42] whitespace-nowrap">15</h4>
           <p className="text-base font-bold text-[#737373] mt-1">Countries Worldwide</p>
         </div>
         <div>
-          <h4 className="text-6xl font-bold text-[#252B42]">100+</h4>
+          <h4 className="text-6xl font-bold text-[#252B42] whitespace-nowrap">100+</h4>
           <p className="text-base font-bold text-[#737373] mt-1">Top Partners</p>
         </div>
       </div>

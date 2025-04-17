@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const ProductCard = ({ product }) => {
   return (
     <Link to={`/product/${product.id}`} className="block">
-      <div className="border overflow-hidden text-center shadow hover:shadow-md transition duration-300 md:h-[650px] lg:h-[800px]">
+      <div className="border overflow-hidden text-center shadow hover:shadow-md transition duration-300 md:min-h-[500px] lg:min-h-[800px]">
         <img
           loading='lazy'  
           src={product.images[0]?.url}
