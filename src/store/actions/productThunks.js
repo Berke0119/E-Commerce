@@ -1,5 +1,5 @@
 import axiosInstance from '../../api/axiosInstance';
-import { setProductList, setCategories, setFetchState, setOffset, setLimit, setFilter, setTotal } from './productActions';
+import { setProductList, setCategories, setFetchState, setOffset, setLimit, setFilter, setTotal, setProductDetailLoading, setProductDetail } from './productActions';
 
 export const fetchProducts = () => async (dispatch) => {
   dispatch(setFetchState('FETCHING'));
@@ -44,3 +44,17 @@ export const fetchFilteredProducts = ({ categoryId, offset = 0, limit = 12, filt
     dispatch(setFetchState('FAILED'));
   }
 };
+
+
+export const fetchProductById = (id) => async (dispatch) => {
+  try {
+    dispatch(setProductDetailLoading(true));
+    const res = await axiosInstance.get(`/products/${id}`);
+    dispatch(setProductDetail(res.data));
+  } catch (err) {
+    console.error('Ürün detayı alınamadı:', err);
+  } finally {
+    dispatch(setProductDetailLoading(false));
+  }
+};
+

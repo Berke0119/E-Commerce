@@ -1,9 +1,16 @@
 import { Link } from 'react-router-dom';
+import { generateProductURL } from '../utils/productURLUtils';
+import { useSelector } from 'react-redux';
 
 const ProductCard = ({ product }) => {
+
+  const { categories } = useSelector((state) => state.product);
+
+  const url = generateProductURL(product, categories);
+
   return (
-    <Link to={`/product/${product.id}`} className="block">
-      <div className="border overflow-hidden text-center shadow hover:shadow-md transition duration-300 md:min-h-[500px] lg:min-h-[800px]">
+    <Link to={url} className="block cursor-pointer hover:scale-105 transition duration-300">
+      <div className="border overflow-hidden text-center shadow hover:shadow-md transition duration-300 md:min-h-[500px] lg:min-h-[600px]">
         <img
           loading='lazy'  
           src={product.images[0]?.url}

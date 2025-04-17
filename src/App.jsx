@@ -8,6 +8,8 @@ import AppLoader from "./components/AppLoader";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import TeamPage from "./pages/TeamPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import ShopingCartPage from "./pages/ShopingCartPage";
 
 function App() {
   return (
@@ -23,7 +25,11 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/team" element={<TeamPage />} />
-          {/* <Route path="/shop/:gender/:categoryName/:categoryId/:productId" element={<ProductDetail />} /> */}
+          <Route
+            path="/shop/:gender/:categoryName/:categoryId/:productSlug/:productId"
+            element={<ProductDetailPage />}
+          />
+          <Route path="/cart" element={<ShopingCartPage />} />
         </Route>
       </Routes>
     </>

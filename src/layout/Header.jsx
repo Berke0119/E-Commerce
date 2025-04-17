@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../store/actions/productThunks';
 import { Menu, X, User, ShoppingCart, Heart, Search } from 'lucide-react';
@@ -7,15 +7,19 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import md5 from 'md5';
 import axiosInstance from '../api/axiosInstance';
 import { setUser } from '../store/actions/clientActions';
+import CartMenu from '../components/CartMenu';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.product.categories);
   const user = useSelector((state) => state.client.user);
+  const cart = useSelector((state) => state.cart.cart);
   const isAuthenticated = !!user?.email;
 
   useEffect(() => {
@@ -102,7 +106,14 @@ export default function Header() {
             )}
           </div>
           <Search size={16} className="text-gray-600" />
-          <ShoppingCart size={16} className="text-gray-600" />
+          <div className="cursor-pointer" onClick={() => navigate('/cart')}>
+            <ShoppingCart size={16} className="text-gray-600" />
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                {cart.length}
+              </span>
+            )}
+          </div>
           <button onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X className="text-gray-600" /> : <Menu className="text-gray-600" />}
           </button>
@@ -171,7 +182,21 @@ export default function Header() {
           )}
 
           <Search size={16} className="text-gray-600 hover:text-black cursor-pointer" />
-          <ShoppingCart size={16} className="text-gray-600 hover:text-black cursor-pointer" />
+          <div 
+            className="relative"
+            onMouseEnter={() => setIsCartOpen(true)}
+            onMouseLeave={() => setIsCartOpen(false)}
+          >
+            <div className="cursor-pointer">
+              <ShoppingCart size={16} className="text-gray-600 hover:text-black" />
+              {cart.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  {cart.length}
+                </span>
+              )}
+            </div>
+            {isCartOpen && <CartMenu />}
+          </div>
           <Heart size={16} className="text-gray-600 hover:text-black cursor-pointer" />
         </div>
 
