@@ -9,6 +9,15 @@ const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_CART': {
       const newItem = action.payload;
+      
+      // Eğer payload bir dizi ise, cart'ı doğrudan güncelle
+      if (Array.isArray(newItem)) {
+        return {
+          ...state,
+          cart: newItem
+        };
+      }
+      
       // Aynı ürünü bul
       const existing = state.cart.find(
         (ci) => ci.product.id === newItem.product.id

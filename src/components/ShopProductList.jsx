@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 import { fetchFilteredProducts } from '../store/actions/productThunks';
 import ShopPagination from './ShopPagination';
+
 const sortOptions = [
   { label: 'Popularity', value: 'sell_count:desc' },
   { label: 'Price: Low to High', value: 'price:asc' },
@@ -12,7 +13,7 @@ const sortOptions = [
 
 const ShopProductList = () => {
   const dispatch = useDispatch();
-  const { categoryId } = useParams();
+  const { categoryId, gender } = useParams();
   const {
     productList,
     offset,
@@ -24,19 +25,18 @@ const ShopProductList = () => {
 
   const [selectedFilter, setSelectedFilter] = useState(filter);
 
-
   // URL ilk açıldığında çalışsın
   useEffect(() => {
-    dispatch(fetchFilteredProducts({ categoryId, offset, limit, filter }));
-  }, [dispatch, categoryId]);
+    dispatch(fetchFilteredProducts({ categoryId, gender, offset, limit, filter }));
+  }, [dispatch, categoryId, gender]);
 
   const onPageChange = (page) => {
     const newOffset = (page - 1) * limit;
-    dispatch(fetchFilteredProducts({ categoryId, offset: newOffset, limit, filter }));
+    dispatch(fetchFilteredProducts({ categoryId, gender, offset: newOffset, limit, filter }));
   };
 
   const handleFilterApply = () => {
-    dispatch(fetchFilteredProducts({ categoryId, offset: 0, limit, filter: selectedFilter }));
+    dispatch(fetchFilteredProducts({ categoryId, gender, offset: 0, limit, filter: selectedFilter }));
   };
 
   return (

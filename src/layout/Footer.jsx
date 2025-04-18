@@ -1,5 +1,6 @@
 import React from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import {Link} from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -17,10 +18,10 @@ export default function Footer() {
         <div>
           <h4 className="text-base font-bold text-[#252B42] mb-4">Company Info</h4>
           <ul className="space-y-2 text-[#737373] text-sm font-bold">
-            <li className='hover:underline'><a href="#">About Us</a></li>
-            <li className='hover:underline'><a href="#">Carrier</a></li>
+            <li className='hover:underline'><Link to="/about">About Us</Link></li>
+            <li className='hover:underline'><Link to="/contact">Carrier</Link></li>
             <li className='hover:underline'><a href="#">Pricing</a></li>
-            <li className='hover:underline'><a href="#">Our Team</a></li>
+            <li className='hover:underline'><Link to="/team">Our Team</Link></li>
           </ul>
         </div>
 

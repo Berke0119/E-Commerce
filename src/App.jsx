@@ -12,6 +12,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import ShopingCartPage from "./pages/ShopingCartPage";
 import OrderPage from "./pages/OrderPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route element={<PageContent />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/shop/:gender" element={<ShopPage />} />
           <Route path="/shop/:gender/:categoryName/:categoryId" element={<ShopPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -40,6 +42,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/history" element={<OrderHistoryPage />} />
         </Route>
       </Routes>
     </>

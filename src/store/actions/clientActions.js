@@ -3,6 +3,7 @@ export const setRoles = (payload) => ({ type: 'SET_ROLES', payload });
 export const setTheme = (payload) => ({ type: 'SET_THEME', payload });
 export const setLanguage = (payload) => ({ type: 'SET_LANGUAGE', payload });
 export const setAddressList = (payload) => ({ type: 'SET_ADDRESS_LIST', payload });
+export const setCardList = (payload) => ({ type: 'SET_CARD_LIST', payload });
 
 // Thunk action (roles gibi API'den çekilecek veri için örnek)
 export const fetchRoles = () => async (dispatch) => {

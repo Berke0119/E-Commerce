@@ -7,6 +7,7 @@ import { Heart, Minus, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCart } from '../store/actions/cartActions';
+import { toast } from 'react-toastify';
 
 export default function ProductDetailOverview({ product }) {
   const filledStars = Math.floor(product.rating); // dolu yıldız sayısı
@@ -33,6 +34,15 @@ export default function ProductDetailOverview({ product }) {
       checked: true,
       product: product
     }));
+
+    toast.success('Ürün sepete eklendi', {
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
   
   return (

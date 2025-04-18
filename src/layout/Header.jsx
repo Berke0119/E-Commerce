@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../store/actions/productThunks';
-import { Menu, X, User, ShoppingCart, Heart, Search } from 'lucide-react';
+import { Menu, X, User, ShoppingCart, Heart, Search, Package, LogOut } from 'lucide-react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import md5 from 'md5';
 import axiosInstance from '../api/axiosInstance';
@@ -86,6 +86,16 @@ export default function Header() {
                       />
                       <span className="text-sm text-gray-700">{user.name}</span>
                     </div>
+                    <Link
+                      to="/history"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Package size={16} className="text-[#23A6F0]" />
+                        <span>Sipariş Geçmişi</span>
+                      </div>
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
@@ -152,28 +162,42 @@ export default function Header() {
 
         {/* Sağ ikonlar */}
         <div className="hidden md:flex gap-4 items-center text-sm text-[#23A6F0]">
-          {/*<Link to="/login" className="flex items-center gap-1"><User size={16} /> Login / Register</Link>*/}
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
-              <img
-                src={`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon`}
-                alt="Avatar"
-                className="w-6 h-6 rounded-full object-cover"
-              />
-              <span className="text-sm font-bold text-[#252B42]">{user.name}</span>
-
-              <button
-                onClick={() => {
-                  dispatch(setUser({}));
-                  localStorage.removeItem('token');
-                  delete axiosInstance.defaults.headers['Authorization'];
-                }}
-                className="text-red-500 text-xs ml-2 underline font-bold"
-              >
-                Logout
-              </button>
-
-
+              <div className="relative group">
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <img
+                    src={`https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon`}
+                    alt="Avatar"
+                    className="w-6 h-6 rounded-full object-cover"
+                  />
+                  <span className="text-sm font-bold text-[#252B42]">{user.name}</span>
+                </div>
+                
+                {/* Dropdown Menü */}
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <Link 
+                    to="/history" 
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Package size={16} className="text-[#23A6F0]" />
+                      <span>Sipariş Geçmişi</span>
+                    </div>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      dispatch(setUser({}));
+                      localStorage.removeItem('token');
+                      delete axiosInstance.defaults.headers['Authorization'];
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 flex items-center gap-2"
+                  >
+                    <LogOut size={16} />
+                    <span>Çıkış Yap</span>
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <Link to="/login" className="flex items-center gap-1">

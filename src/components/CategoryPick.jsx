@@ -16,7 +16,7 @@ export default function CategoryPick() {
       <div className="flex flex-col md:flex-row gap-5 justify-center">
         {/* Sol büyük görsel - MEN */}
         <div 
-          onClick={() => navigate('/shop/erkek')}
+          onClick={() => navigate('/shop')}
           className="relative cursor-pointer overflow-hidden w-full md:w-auto"
         >
           <img
@@ -33,7 +33,7 @@ export default function CategoryPick() {
 
         {/* Orta görsel - WOMEN */}
         <div
-          onClick={() => navigate('/shop/kadin')}
+          onClick={() => navigate('/shop/k')}
           className="relative cursor-pointer overflow-hidden w-full md:w-[300px]"
         >
           <img
@@ -52,7 +52,7 @@ export default function CategoryPick() {
         <div className="flex flex-col gap-5 w-full md:w-auto">
           {/* ACCESSORIES */}
           <div
-            onClick={() => navigate('/shop/aksesuar')}
+            onClick={() => navigate('/shop')}
             className="relative cursor-pointer overflow-hidden"
           >
             <img
@@ -69,7 +69,7 @@ export default function CategoryPick() {
 
           {/* KIDS */}
           <div
-            onClick={() => navigate('/shop/cocuk')}
+            onClick={() => navigate('/shop')}
             className="relative cursor-pointer overflow-hidden"
           >
             <img

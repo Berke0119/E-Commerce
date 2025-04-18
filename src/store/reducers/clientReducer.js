@@ -5,6 +5,10 @@ const initialState = {
   roles: [],
   theme: 'light',
   language: 'tr',
+  cardList: [],
+  selectedCard: null,
+  loading: false,
+  error: null
 };
 
 const clientReducer = (state = initialState, action) => {
@@ -19,6 +23,14 @@ const clientReducer = (state = initialState, action) => {
       return { ...state, language: action.payload };
     case 'SET_ADDRESS_LIST':
       return { ...state, addressList: action.payload };
+    case 'SET_CARD_LIST':
+      return { ...state, cardList: action.payload };
+    case 'SET_SELECTED_CARD':
+      return { ...state, selectedCard: action.payload };
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload };
+    case 'SET_ERROR':
+      return { ...state, error: action.payload };
     default:
       return state;
   }

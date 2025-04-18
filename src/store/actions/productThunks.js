@@ -23,7 +23,7 @@ export const fetchCategories = () => async (dispatch) => {
 };
 
 
-export const fetchFilteredProducts = ({ categoryId, offset = 0, limit = 12, filter = '' }) => async (dispatch) => {
+export const fetchFilteredProducts = ({ categoryId, gender, offset = 0, limit = 12, filter = '' }) => async (dispatch) => {
   dispatch(setFetchState('FETCHING'));
   dispatch(setOffset(offset));
   dispatch(setLimit(limit));
@@ -32,13 +32,23 @@ export const fetchFilteredProducts = ({ categoryId, offset = 0, limit = 12, filt
   try {
     let url = `/products?limit=${limit}&offset=${offset}`;
     if (categoryId) url += `&category=${categoryId}`;
+    if (gender) url += `&gender=${gender}`;
     if (filter) url += `&sort=${filter}`;
 
     const res = await axiosInstance.get(url);
 
-    dispatch(setProductList(res.data.products));
-    dispatch(setTotal(res.data.total || res.data.products.length));
-    dispatch(setFetchState('FETCHED'));
+    if(res.data.products.length == 0){
+      let zeroProductUrl = `/products?limit=${limit}&offset=${offset}`;
+      const response = await axiosInstance.get(zeroProductUrl);
+      dispatch(setProductList(response.data.products));
+      dispatch(setTotal(response.data.total || response.data.products.length));
+      dispatch(setFetchState('FETCHED'));
+    }else{
+      dispatch(setProductList(res.data.products));
+      dispatch(setTotal(res.data.total || res.data.products.length));
+      dispatch(setFetchState('FETCHED'));
+    }
+
   } catch (err) {
     console.error('Product fetch error:', err);
     dispatch(setFetchState('FAILED'));
