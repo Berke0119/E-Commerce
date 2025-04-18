@@ -4,7 +4,7 @@ const initialState = {
   creditCards: [],
   roles: [],
   theme: 'light',
-  language: 'en',
+  language: 'tr',
 };
 
 const clientReducer = (state = initialState, action) => {
@@ -17,6 +17,8 @@ const clientReducer = (state = initialState, action) => {
       return { ...state, theme: action.payload };
     case 'SET_LANGUAGE':
       return { ...state, language: action.payload };
+    case 'SET_ADDRESS_LIST':
+      return { ...state, addressList: action.payload };
     default:
       return state;
   }

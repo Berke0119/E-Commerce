@@ -8,7 +8,11 @@ function AppLoader() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) return;
+    if (!token) {
+      dispatch(setUser({})); // Token yoksa user state'ini temizle
+      delete axiosInstance.defaults.headers['Authorization'];
+      return;
+    }
 
     // Axios'a token header ekle
     axiosInstance.defaults.headers['Authorization'] = token;
@@ -16,11 +20,16 @@ function AppLoader() {
     // Verify isteği
     axiosInstance.get('/verify')
       .then(res => {
-        dispatch(setUser(res.data));
-        localStorage.setItem('token', token); // token'ı tazele
-        axiosInstance.defaults.headers['Authorization'] = token;
+        if (res.data) {
+          dispatch(setUser(res.data));
+          localStorage.setItem('token', token); // token'ı tazele
+          axiosInstance.defaults.headers['Authorization'] = token;
+        } else {
+          throw new Error('Invalid response');
+        }
       })
       .catch(() => {
+        dispatch(setUser({})); // Hata durumunda user state'ini temizle
         localStorage.removeItem('token');
         delete axiosInstance.defaults.headers['Authorization'];
       });

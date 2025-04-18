@@ -2,6 +2,7 @@ export const setUser = (payload) => ({ type: 'SET_USER', payload });
 export const setRoles = (payload) => ({ type: 'SET_ROLES', payload });
 export const setTheme = (payload) => ({ type: 'SET_THEME', payload });
 export const setLanguage = (payload) => ({ type: 'SET_LANGUAGE', payload });
+export const setAddressList = (payload) => ({ type: 'SET_ADDRESS_LIST', payload });
 
 // Thunk action (roles gibi API'den çekilecek veri için örnek)
 export const fetchRoles = () => async (dispatch) => {
@@ -13,3 +14,6 @@ export const fetchRoles = () => async (dispatch) => {
     console.error('Failed to fetch roles:', error);
   }
 };
+
+
+

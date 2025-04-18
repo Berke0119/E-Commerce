@@ -10,6 +10,8 @@ import ContactPage from "./pages/ContactPage";
 import TeamPage from "./pages/TeamPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import ShopingCartPage from "./pages/ShopingCartPage";
+import OrderPage from "./pages/OrderPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -30,10 +32,17 @@ function App() {
             element={<ProductDetailPage />}
           />
           <Route path="/cart" element={<ShopingCartPage />} />
+          <Route
+            path="/order"
+            element={
+              <ProtectedRoute>
+                <OrderPage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </>
-
   );
 }
 
